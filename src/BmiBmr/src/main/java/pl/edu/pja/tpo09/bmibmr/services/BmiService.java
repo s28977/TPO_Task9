@@ -3,11 +3,18 @@ package pl.edu.pja.tpo09.bmibmr.services;
 import org.springframework.stereotype.Service;
 import pl.edu.pja.tpo09.bmibmr.models.BmiDto;
 
+
 @Service
 public class BmiService
 {
     public BmiService()
     {
+    }
+
+    public String getBmiString(double weight, double height)
+    {
+        double bmi = calculateBmi(weight, height);
+        return String.format("%.2f", bmi);
     }
 
     public BmiDto getBmiDto(double weight, double height)
@@ -38,6 +45,6 @@ public class BmiService
 
     private double calculateBmi(double weight, double height)
     {
-        return (weight / height);
+        return (weight / ((height / 100) * (height / 100)));
     }
 }
