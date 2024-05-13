@@ -11,5 +11,4 @@ public class BmiBmrApplication
     {
         SpringApplication.run(BmiBmrApplication.class, args);
     }
-
 }
