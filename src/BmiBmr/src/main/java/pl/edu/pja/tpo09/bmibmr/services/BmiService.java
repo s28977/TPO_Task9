@@ -12,7 +12,7 @@ public class BmiService
     {
     }
 
-    public String getBmiFormatted(double weight, double height) throws NegativeParametersException
+    public String getBmiString(double weight, double height) throws NegativeParametersException
     {
         double bmi = calculateBmi(weight, height);
         return String.format("%.2f", bmi);

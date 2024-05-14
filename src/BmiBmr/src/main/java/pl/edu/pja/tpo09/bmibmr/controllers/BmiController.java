@@ -42,13 +42,13 @@ public class BmiController
 
 
     @GetMapping(produces = {
-            MediaType.TEXT_PLAIN_VALUE
-    })
+                MediaType.TEXT_PLAIN_VALUE
+            })
     ResponseEntity<String> getBmiTextPlain(@RequestParam double weight, @RequestParam double height)
     {
         try
         {
-            return ResponseEntity.ok(bmiService.getBmiFormatted(weight, height));
+            return ResponseEntity.ok(bmiService.getBmiString(weight, height));
         } catch (NegativeParametersException exception)
         {
             return ResponseEntity.badRequest()
