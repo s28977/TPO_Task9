@@ -1,6 +1,7 @@
 package pl.edu.pja.tpo09.bmibmr.services;
 
 import org.springframework.stereotype.Service;
+import pl.edu.pja.tpo09.bmibmr.exceptions.NegativeParametersException;
 import pl.edu.pja.tpo09.bmibmr.models.BmiDto;
 
 
@@ -11,13 +12,13 @@ public class BmiService
     {
     }
 
-    public String getBmiString(double weight, double height)
+    public String getBmiFormatted(double weight, double height) throws NegativeParametersException
     {
         double bmi = calculateBmi(weight, height);
         return String.format("%.2f", bmi);
     }
 
-    public BmiDto getBmiDto(double weight, double height)
+    public BmiDto getBmiDto(double weight, double height) throws NegativeParametersException
     {
         double bmi = calculateBmi(weight, height);
         String type = getType(bmi);
@@ -43,8 +44,12 @@ public class BmiService
         return "Obese (Class III)";
     }
 
-    private double calculateBmi(double weight, double height)
+    private double calculateBmi(double weight, double height) throws NegativeParametersException
     {
+        if (weight <= 0 || height <= 0)
+        {
+            throw new NegativeParametersException("invalid data, weight and height parameters must be positive numbers");
+        }
         return (weight / ((height / 100) * (height / 100)));
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pl.edu.pja.tpo09.bmibmr.exceptions.NegativeParametersException;
 import pl.edu.pja.tpo09.bmibmr.models.BmiDto;
 import pl.edu.pja.tpo09.bmibmr.services.BmiService;
 
@@ -28,13 +29,15 @@ public class BmiController
     })
     ResponseEntity<BmiDto> getBmiJsonXml(@RequestParam double weight, @RequestParam double height)
     {
-        if (height <= 0 || weight <= 0)
+        try
+        {
+            return ResponseEntity.ok(bmiService.getBmiDto(weight, height));
+        } catch (NegativeParametersException exception)
         {
             return ResponseEntity.badRequest()
-                    .header("Reason", "invalid data, weight and height parameters must be positive numbers")
+                    .header("Reason", exception.getMessage())
                     .build();
         }
-        return ResponseEntity.ok(bmiService.getBmiDto(weight, height));
     }
 
 
@@ -43,13 +46,15 @@ public class BmiController
     })
     ResponseEntity<String> getBmiTextPlain(@RequestParam double weight, @RequestParam double height)
     {
-        if (height <= 0 || weight <= 0)
+        try
+        {
+            return ResponseEntity.ok(bmiService.getBmiFormatted(weight, height));
+        } catch (NegativeParametersException exception)
         {
             return ResponseEntity.badRequest()
-                    .header("Reason", "invalid data, weight and height parameters must be positive numbers")
+                    .header("Reason", exception.getMessage())
                     .build();
         }
-        return ResponseEntity.ok(bmiService.getBmiString(weight, height));
     }
 
 }
